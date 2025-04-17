@@ -1,0 +1,65 @@
+---
+description: Project directory structure guidelines
+globs: 
+alwaysApply: false
+---
+# Directory Structure
+
+## Standard Project Structure
+```
+project_root/
+├── .github/                    # GitHub specific files
+│   └── workflows/              # GitHub Actions workflows
+├── docs/                       # Documentation files
+├── {{project_name}}/           # Main package
+│   ├── __init__.py
+│   ├── cli/                    # Command-line interface
+│   ├── config.py               # Configuration management
+│   ├── models/                 # Data models
+│   ├── services/               # Service integrations
+│   └── utils/                  # Utility functions
+├── scripts/                    # Utility scripts
+├── tests/                      # Test files
+│   ├── unit/                   # Unit tests
+│   └── integration/            # Integration tests
+├── .env.example                # Example environment variables
+├── .gitignore                  # Git ignore file
+├── DEVELOPMENT.md              # Development documentation
+├── LICENSE                     # License file
+├── pyproject.toml              # Project configuration
+├── README.md                   # Project overview
+└── TASKS.md                    # Task tracking
+```
+
+## Key Directories and Files
+
+### Main Package
+- `{{project_name}}/`: Main package directory
+  - `__init__.py`: Package initialization
+  - `cli/`: Command-line interface modules
+  - `config.py`: Configuration management
+  - `models/`: Data models and schemas
+  - `services/`: Service integrations
+  - `utils/`: Utility functions
+
+### Documentation
+- `docs/`: Documentation files
+- `DEVELOPMENT.md`: Development documentation
+- `README.md`: Project overview
+- `TASKS.md`: Task tracking
+
+### Testing
+- `tests/`: Test files
+  - `unit/`: Unit tests
+  - `integration/`: Integration tests
+
+### Configuration
+- `.env.example`: Example environment variables
+- `pyproject.toml`: Project configuration
+
+## File Naming Conventions
+- Use snake_case for Python files and directories
+- Use PascalCase for class names
+- Use snake_case for function and variable names
+- Use SCREAMING_SNAKE_CASE for constants
+- Prefix test files with `test_`

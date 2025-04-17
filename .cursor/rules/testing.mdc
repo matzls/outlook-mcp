@@ -1,0 +1,236 @@
+---
+description: Testing and linting standards
+globs: ["*.py", "*.js", "*.ts", "*.jsx", "*.tsx", "*_test.py", "test_*.py"]
+alwaysApply: false
+---
+# Testing and Linting Standards
+
+These advanced standards will be implemented **only** when explicitly activated in `DEVELOPMENT.md`.
+**Always check the "Project Quality Gates" section in `DEVELOPMENT.md`** for current activation status.
+When activated, all new code must conform to these standards.
+Baseline code quality standards (defined in implement.mdc) always apply.
+
+> **Note**: For a comprehensive guide with detailed examples and best practices, refer to the [Testing Standards Guide](./docs/testing_standards_guide.md).
+
+## Testing Requirements
+
+### Unit Testing
+- Use pytest for all unit tests
+- Maintain >80% code coverage for all new code
+- Test all public APIs and functions
+- Include tests for:
+  - Normal use cases
+  - Edge cases
+  - Error conditions
+  - Boundary values
+- Use fixtures for test setup and teardown
+- Use parameterized tests for similar test cases
+- Mock external dependencies
+
+### Integration Testing
+- Test interactions between components
+- Use realistic test data
+- Test all API endpoints
+- Verify database interactions
+- Test authentication and authorization
+
+### Performance Testing
+- Benchmark critical operations
+- Test with realistic data volumes
+- Identify and address bottlenecks
+- Set performance budgets for key operations
+
+## Linting and Code Quality
+
+### Ruff Configuration
+- Use Ruff for linting and formatting
+- Configure with appropriate rule sets
+- Enforce consistent code style
+- Detect common bugs and anti-patterns
+
+### Type Checking
+- Use mypy for static type checking
+- Enforce strict type checking
+- No `Any` types without justification
+- Complete type annotations for all functions and classes
+
+### Security Scanning
+- Use Bandit for security scanning
+- Identify potential security vulnerabilities
+- Address all high and medium severity issues
+- Document any accepted risks
+
+### Standard Configuration
+The following configuration should be used as a baseline for all projects. Projects may customize this configuration as needed, but should maintain the same level of strictness.
+
+#### Standard `pyproject.toml` Configuration
+
+```toml
+# --- Ruff ---
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [ # Comprehensive ruleset
+    "E", "F", "B", "I", "N", "D", "UP", "ANN", "S", "BLE", "A", "C4",
+    "T10", "EM", "EXE", "ISC", "ICN", "G", "INP", "PIE", "T20", "PT",
+    "Q", "RSE", "RET", "SLF", "SIM", "TID", "TCH", "ARG", "ERA", "PD",
+    "PGH", "PL", "TRY", "NPY", "RUF"
+]
+ignore = ["D203", "D212", "D107"] # Google style exceptions
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "D104"]
+"tests/*" = ["ANN", "S101", "D100", "D101", "D102", "D103"]
+
+# --- Black ---
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+include = '\\.pyi?$'
+
+# --- isort ---
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["{{project_name}}"] # Replace {{project_name}}
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+# --- mypy ---
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict_optional = true
+# plugins = ["pydantic.mypy"] # Uncomment if using Pydantic
+
+# Gradual typing overrides (examples, adjust as needed)
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+# --- Bandit ---
+[tool.bandit]
+exclude_dirs = ["tests", "venv", ".venv"]
+skips = ["B101"] # Allow assert in tests
+
+# --- Pytest ---
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov={{project_name}} --cov-report=term-missing --cov-fail-under=85" # Target 85% coverage
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+log_cli = true # Enable live logging during tests
+log_cli_level = "INFO"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks integration tests",
+    "unit: marks unit tests",
+    "e2e: marks end-to-end tests",
+]
+```
+
+## Test Structure
+
+### File Organization
+- Place tests in a `/tests` directory
+- Mirror the main application structure
+- Name test files with `test_` prefix or `_test` suffix
+- Group related tests in classes
+
+### Test Naming
+- Use descriptive test names
+- Follow the pattern `test_<function_name>_<scenario>_<expected_result>`
+- Example: `test_user_login_with_invalid_credentials_returns_error`
+
+## CI/CD Integration
+
+### Pre-commit Hooks
+- Configure pre-commit hooks for:
+  - Code formatting with Ruff
+  - Linting with Ruff
+  - Type checking with mypy
+  - Security scanning with Bandit
+
+### GitHub Actions Workflow
+- Automated testing on push and pull requests
+- Code quality checks with Ruff
+- Type checking with mypy
+- Security scanning
+- Coverage reporting
+
+### Standard Pre-commit Configuration
+
+```yaml
+# Standard pre-commit configuration for all projects
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+    -   id: check-ast
+    -   id: check-json
+    -   id: check-toml
+    -   id: debug-statements
+-   repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.3.0
+    hooks:
+    -   id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+-   repo: https://github.com/psf/black
+    rev: 24.2.0
+    hooks:
+    -   id: black
+        language_version: python3.12
+-   repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+    -   id: isort
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+    -   id: mypy
+        # Add project-specific types here
+        additional_dependencies: [types-requests, types-PyYAML]
+-   repo: https://github.com/PyCQA/bandit
+    rev: 1.7.7
+    hooks:
+    -   id: bandit
+        args: ["-c", "pyproject.toml"]
+        additional_dependencies: ["bandit[toml]"]
+```
+
+## Dependency Based Testing
+Create unit tests for any new functionality. Run all tests to confirm that existing behavior is still as expected.
+
+## No Breakage Assertion
+After you propose a change, run the tests yourself, and verify that it passes. Do not rely on me to do this, and be certain that my code will not be broken.
+
+## Regression Prevention
+- Always run the full test suite before considering a change complete
+- Verify that all existing functionality continues to work as expected
+- Add regression tests for any bugs that are fixed to prevent them from recurring
+- Document any changes to expected behavior in the test documentation
+- Ensure that tests cover both the happy path and edge cases/error conditions
+
+## Test Plan
+- Think of sufficiently exhaustive test plans for the functionalities added/updated against the requirements and desired outcomes.
+- Define comprehensive test scenarios covering edge cases
+- Specify appropriate validation methods for the project's stack
+- Suggest monitoring approaches to verify the solution's effectiveness
+- Consider potential regressions and how to prevent them

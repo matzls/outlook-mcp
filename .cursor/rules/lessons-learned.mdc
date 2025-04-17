@@ -1,0 +1,98 @@
+---
+description: Project intelligence, patterns, and preferences
+globs:
+alwaysApply: true
+---
+# Lessons Learned
+
+This file captures important patterns, preferences, and project intelligence. It is a living document that grows smarter as we work together.
+
+When you discover a new pattern, preference, or insight during development:
+1. Document it immediately in the appropriate section below
+2. Validate it with the user if possible
+3. Apply it consistently in future work
+4. Reference it when making related decisions
+
+## Project Patterns
+
+<!--
+Template for documenting project patterns:
+
+### [Pattern Name]
+- **Description**: What this pattern is
+- **When to Use**: When this pattern should be applied
+- **Implementation**: How to implement this pattern
+- **Examples**: References to examples in the codebase
+-->
+
+## User Preferences
+
+<!--
+Template for documenting user preferences:
+
+### [Preference Category]
+- **Preference**: The specific preference
+- **Rationale**: Why this preference exists
+- **Application**: How to apply this preference
+-->
+
+## Implementation Insights
+
+<!--
+Template for documenting implementation insights:
+
+### [Insight Title]
+- **Context**: When this insight is relevant
+- **Insight**: The specific insight or learning
+- **Application**: How to apply this insight
+- **Benefits**: Why this insight is valuable
+-->
+
+## Evolution of Decisions
+
+<!--
+Template for documenting decision evolution:
+
+### [Decision Area]
+- **Initial Approach**: The original decision or approach
+- **Evolution**: How the approach has changed over time
+- **Current Best Practice**: The current recommended approach
+- **Rationale**: Why the approach evolved
+-->
+
+## Tool Usage Patterns
+
+<!--
+Template for documenting tool usage patterns:
+
+### [Tool Name]
+- **Purpose**: What this tool is used for
+- **Configuration**: How the tool is configured
+- **Best Practices**: How to use the tool effectively
+- **Gotchas**: Common issues and how to avoid them
+-->
+
+## Critical Implementation Paths
+
+<!--
+Template for documenting critical implementation paths:
+
+### [Feature or Component]
+- **Entry Points**: How this feature is invoked
+- **Key Components**: The main components involved
+- **Data Flow**: How data flows through the components
+- **Configuration Points**: How this feature is configured
+- **Extension Points**: How this feature can be extended
+-->
+
+## Known Challenges
+
+<!--
+Template for documenting known challenges:
+
+### [Challenge Area]
+- **Challenge**: The specific challenge
+- **Impact**: How this challenge affects the project
+- **Workarounds**: Current workarounds or mitigations
+- **Future Improvements**: Planned improvements to address this challenge
+-->

@@ -1,0 +1,100 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "outlook-mcp"
+version = "0.1.0"
+description = "Modular Outlook MCP Server: Connects Claude with Microsoft Outlook via Microsoft Graph API."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your@email.com"},
+]
+dependencies = [
+    "pydantic>=2.0.0",
+    "logfire>=0.15.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.10.0",
+    "ruff>=0.3.0",
+    "mypy>=1.8.0",
+    "pre-commit>=3.5.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/outlook-mcp"
+"Bug Tracker" = "https://github.com/yourusername/outlook-mcp/issues"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "B", "I", "N", "D", "UP", "ANN", "S", "BLE", "A", "C4",
+    "T10", "EM", "EXE", "ISC", "ICN", "G", "INP", "PIE", "T20", "PT",
+    "Q", "RSE", "RET", "SLF", "SIM", "TID", "TCH", "ARG", "ERA", "PD",
+    "PGH", "PL", "TRY", "NPY", "RUF"
+]
+ignore = ["D203", "D212", "D107"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "D104"]
+"tests/*" = ["ANN", "S101", "D100", "D101", "D102", "D103"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+include = '\\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["outlook-mcp"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict_optional = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[tool.bandit]
+exclude_dirs = ["tests", "venv", ".venv"]
+skips = ["B101"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=src.outlook-mcp --cov-report=term-missing --cov-fail-under=85"
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+log_cli = true
+log_cli_level = "INFO"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks integration tests",
+    "unit: marks unit tests",
+    "e2e: marks end-to-end tests",
+] 

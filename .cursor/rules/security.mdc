@@ -1,0 +1,58 @@
+---
+description: Security practices and guidelines
+globs: 
+alwaysApply: false
+---
+# Security Practices
+
+## Core Security Principles
+- Input validation and sanitization (especially for user inputs)
+- Secure handling of environment variables (no hardcoded secrets)
+- Regular dependency scanning for vulnerabilities
+- Proper password hashing and storage (if applicable)
+- HTTPS/TLS usage for network communications
+- Principle of least privilege for API access
+
+## Input Validation
+- Validate all user inputs at system boundaries
+- Use Pydantic models for structured validation
+- Implement type checking for all inputs
+- Sanitize inputs to prevent injection attacks
+- Validate data ranges and formats
+
+## Secrets Management
+- Store secrets in environment variables
+- Never hardcode secrets in source code
+- Use a secrets manager for production environments
+- Rotate secrets regularly
+- Use different secrets for different environments
+
+## Authentication and Authorization
+- Implement proper authentication mechanisms
+- Use industry-standard authentication protocols
+- Implement role-based access control
+- Validate permissions for all sensitive operations
+- Use secure session management
+
+## Data Protection
+- Encrypt sensitive data at rest
+- Use TLS for data in transit
+- Implement proper data backup procedures
+- Define and enforce data retention policies
+- Implement secure data deletion procedures
+
+## Dependency Management
+- Regularly scan dependencies for vulnerabilities
+- Keep dependencies up to date
+- Pin dependency versions
+- Use a lockfile to ensure consistent dependencies
+- Audit dependencies for security issues
+
+## Secure Coding Practices
+- Follow the principle of least privilege
+- Implement proper error handling
+- Use secure defaults
+- Validate all inputs
+- Sanitize all outputs
+- Implement proper logging (without sensitive data)
+- Use parameterized queries for database access

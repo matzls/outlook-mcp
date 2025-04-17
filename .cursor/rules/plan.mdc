@@ -1,0 +1,111 @@
+---
+description: Planning workflow and development process phases
+globs:
+alwaysApply: true
+---
+# Planning Workflow
+
+1. UNDERSTAND the REQUIREMENTS:
+<CLARIFICATION>
+- Always ask for clarifications and follow-ups.
+- Identify underspecified requirements and ask for detailed information.
+- Fully understand all the aspects of the problem and gather details to make it very precise and clear.
+- Ask towards all the hypothesis and assumptions needed to be made. Remove all the ambiguities and uncertainties.
+- Suggest solutions that I didn't think about, i.e. anticipate my needs and things to be specified.
+- Proactively identify potential edge cases and constraints that might not have been explicitly mentioned.
+- Suggest alternative approaches that might be more efficient or maintainable.
+- Identify potential dependencies or conflicts with existing code or systems.
+- Only after having hundred percent clarity and confidence, proceed for SOLUTION.
+</CLARIFICATION>
+
+2. FORMULATING the SOLUTION:
+<STEP BY STEP REASONING>
+<DECOMPOSE>
+- Have a meta architecture plan for the solution.
+- Break down the problem into key concepts and smaller sub-problems.
+- Conduct a complete end-to-end flow analysis of the relevant use cases.
+- Track the flow of data and logic throughout all components involved.
+- Identify all entry points, exit points, and potential failure points.
+- Map dependencies between components and how they interact.
+</DECOMPOSE>
+a. Think about all possible ways to solve the problem.
+b. Set up the evaluation criterias and trade-offs to access the merit of the solutions.
+c. Find the optimal solution and the criterias making it optimal and the trade-offs involved.
+
+<MULTI ATTEMPTS>
+a. Reason out rigorously about the optimality of the solution.
+b. Question every assumption and inference, and support them with comprehensive reasoning.
+c. Think of better solutions than the present one Combining the strongest aspects of different solutions.
+d. Repeat the process <MULTI ATTEMPTS> refining and integrating different solutions into one until a strong solution is found.
+<!--
+e. Can use <WEB USE> if needed to do research.
+-->
+</MULTI ATTEMPTS>
+</STEP BY STEP REASONING>
+
+3. SOLUTION VALIDATION:
+
+<REASONING PRESENTATION>
+- Provide the PLAN with as much detail as possible.
+- Break down the solution step-by-step and think every step in through detail with clarity.
+- Reason out its optimality w.r.t. other promising solutions.
+- Explicitly tell all your assumptions, choices and decisions
+- Explain trade-offs in solutions
+- restate my query in your own words if necessary after giving the solution
+</REASONING PRESENTATION>
+- Before implementing, validate the SOLUTION plan produced by <REASONING PRESENTATION>.
+
+# Development Process Phases
+
+## 1. POC Phase
+- Focus on core functionality validation
+- Minimal error handling
+- Basic logging
+- Simple data models
+- Console-based interface
+
+## 2. Prototype Phase with Production Foundations
+- Enhance stability and usability
+- Comprehensive error handling
+- Structured logging
+- Refined data models with production scalability in mind
+- Basic user interface
+- Test coverage for core functionality
+- Implement foundation for production readiness (see Early Production Readiness section)
+
+## 3. Production Phase
+- Enhance reliability and maintainability
+- Defensive programming
+- Comprehensive logging and monitoring
+- Complete test suite
+- User documentation
+- Performance optimization
+- **Fully enforce testing and linting standards from testing.mdc (if activated in DEVELOPMENT.md)**
+
+# Early Production Readiness
+Implement these elements during the Prototype phase to prepare for production:
+
+1. **Configuration Management**:
+   - Environment-variable based configuration from the start
+   - Separation of config from code using Pydantic models
+   - Configuration validation and sensible defaults
+
+2. **Data Architecture**:
+   - Database schema design with future scaling in mind
+   - Proper indexing strategy from the beginning
+   - Migration framework setup if using a database
+
+3. **API Design** (if applicable):
+   - Versioned endpoints if creating web APIs
+   - Consistent response formatting
+   - Comprehensive error codes and messages
+
+4. **Basic Resilience Patterns**:
+   - Timeout handling for external calls
+   - Graceful degradation when dependencies fail
+   - Simple retry mechanisms for critical operations
+
+5. **Logging Strategy**:
+   - Structured logging format from day one
+   - Consistent log levels and context propagation
+   - Clear separation of application vs. operational logs

@@ -1,0 +1,79 @@
+---
+description: Architecture understanding and patterns
+globs:
+alwaysApply: false
+---
+# Architecture Understanding
+
+READ_ARCHITECTURE: |
+  File: DEVELOPMENT.md
+  Required parsing:
+  1. Load and parse complete architecture documentation from DEVELOPMENT.md
+  2. Extract and understand:
+     - Module boundaries and relationships
+     - Data flow patterns
+     - System interfaces
+     - Component dependencies
+  3. Validate any changes against architectural constraints
+  4. Ensure new code maintains defined separation of concerns
+  5. Preserve existing architectural patterns and design decisions
+  6. Maintain backward compatibility with existing interfaces
+  7. Follow established naming conventions and code organization
+
+  Error handling:
+  1. If architecture documentation is not found: STOP and notify user
+  2. If understanding is incomplete: REQUEST clarification
+  3. If architectural violation detected: WARN user
+
+## Architectural Patterns
+
+### CLI Implementation
+- CLI modules should import and use functions from core modules, not duplicate functionality
+- CLI commands act as thin wrappers around actual implementation
+- Benefits:
+  - Avoids code duplication
+  - Maintains consistency (changes to core reflect in CLI)
+  - Simplifies maintenance (single source of truth)
+
+### Configuration Architecture
+
+#### Core Pattern
+Follow a layered approach to configuration management:
+1. **Environment Variables** → **Configuration Objects** → **Provider-Specific Clients** → **Application Components**
+
+#### Implementation Guidelines
+- **Environment Variables Management**:
+  - Store all configuration in environment variables
+  - Provide comprehensive `.env.example` with clear documentation
+  - Use `dotenv` for local development, actual env vars in production
+  - Include intelligent defaults for non-critical settings
+
+- **Provider Abstraction**:
+  - Abstract service providers (OpenAI, Anthropic, etc.) behind a common interface
+  - Build configuration dictionaries dynamically based on selected provider
+  - Keep provider-specific logic isolated in dedicated modules
+  - Support seamless provider switching without code changes
+
+- **Client Initialization**:
+  - Initialize clients based on configuration at application startup
+  - Handle connection failures gracefully with informative error messages
+  - Implement appropriate retry mechanisms for transient failures
+  - Log configuration choices (without sensitive values)
+
+- **Dependency Injection**:
+  - Pass initialized clients to components, don't initialize within components
+  - Use dataclasses or Pydantic models to structure dependencies
+  - Create factory functions for client initialization
+  - Ensure testability by supporting mock clients
+
+- **Profile Management** (for multiple environments):
+  - Support multiple configuration profiles (dev, test, prod)
+  - Implement secure storage of profile settings
+  - Provide simple mechanism for profile switching
+  - Validate complete configuration at startup
+
+#### Integration with Project Structure
+- Place provider-specific code in `{{project_name}}/services/`
+- Define configuration models in `{{project_name}}/models/config.py`
+- Implement client factories in `{{project_name}}/utils/clients.py`
+- Handle environment loading in `{{project_name}}/config.py`

@@ -1,0 +1,226 @@
+---
+description: Implementation guidelines and code quality standards
+globs: ["*.py", "*.js", "*.ts", "*.jsx", "*.tsx"]
+alwaysApply: false
+---
+# IMPLEMENTATION (ACT MODE/Code MODE)
+
+<PROGRAMMING PRINCIPLES>
+- algorithm_efficiency: Use the most efficient algorithms and data structures
+- modularity: Write modular code, break complex logic into smaller atomic parts. Whenever possible break into classes, files, directories, modules, functions, etc.
+- file_management: Break long files into smaller, more manageable files with smaller functions.
+- import_statements: Prefer importing functions from other files instead of modifying those files directly.
+- file_organization: Organize files into directories and folders.
+- reuse: Prefer to reuse existing code instead of writing it from scratch.
+- code_preservation: Preserve What Works. Don't modify working components without necessity.
+- systematic_sequence: Complete one step completely before starting another. Keep systematic sequence of functionalities.
+- design_patterns: Apply appropriate design patterns for maintainability. Plan for future changes, extendable flexible, scalable, and maintainable code.
+- proactive_testing: Any functionality codes should be accompanied with proper test code as in <TESTING>.
+</PROGRAMMING PRINCIPLES>
+
+<SYSTEMATIC CODE PROTOCOL>
+[Step: 1]
+<ANALYZE CODE>
+<DEPENDENCY ANALYSIS>
+- Which components will be affected?
+- What dependencies exist?
+- Is this local or does it affect core logic?
+- Which functionalities will be affected and how?
+- What cascading effects will this change have?
+</DEPENDENCY ANALYSIS>
+<FLOW ANALYSIS>
+- Before proposing any changes, conduct a complete end-to-end flow analysis of the relevant use case from the entry point (e.g., function call, variable initialization) to the execution of all affected code.
+- Track the flow of data and logic throughout all components involved to understand its full scope.
+</FLOW ANALYSIS>
+- Document these dependencies thoroughly, including the specific usage of functions or logic in files specified by [memory.mdc](mdc:.cursor/rules/memory.mdc)
+</ANALYZE CODE>
+
+[Step: 2]
+<PLAN CODE>
+- If needed initiate <CLARIFICATION> process.
+- Use <STEP BY STEP REASONING> to outline a detailed plan including component dependencies, architectural considerations before coding. Use <REASONING PRESENTATION> to explain all code changes, what each part does, and how it affects other areas.
+<STRUCTURED PROPOSALS>
+- Provide a proposal that specifies:
+  1) What files, functions, or lines of code are being changed
+  2) Why the change is necessary (i.e. bug fix, improvement or new feature)
+  3) All of the directly impacted modules or files
+  4) Potential side effects
+  5) A detailed explanation of any tradeoffs
+</STRUCTURED PROPOSALS>
+</PLAN CODE>
+
+[Step: 3]
+<MAKE CHANGES>
+1. Document Current State in files specified by [memory.mdc](mdc:.cursor/rules/memory.mdc)
+   - What's currently working?
+   - What's the current error/issue?
+   - Which files will be affected?
+
+2. Plan Single Logical Change at a Time
+<INCREMENTAL ROLLOUTS>
+   - One logical feature at a time
+   - But fully resolve this one change by accommodating appropriate changes in other parts of the code.
+   - Adjust all existing dependencies and issues created by this change.
+   - architecture_preservation: Ensure that all new code integrates seamlessly with existing project structure and architecture before committing changes. Do not make changes that disrupt existing code organization or files.
+   - Complete each change fully before moving to the next - avoid leaving partially implemented features.
+   - Ensure backward compatibility unless explicitly instructed otherwise.
+   - Maintain consistent coding style and patterns with the existing codebase.
+</INCREMENTAL ROLLOUTS>
+
+3. Simulation Testing
+<SIMULATION ANALYSIS>
+   - Simulate user interactions and behaviors by performing dry runs, trace calls, or other appropriate methods to rigorously analyze the impact of proposed changes on both expected and edge-case scenarios.
+   - Generate feedback on all potential side effects.
+</SIMULATION ANALYSIS>
+<SIMULATION VALIDATION>
+   - Do not propose a change unless the simulation passes and verifies that all existing functionality is preserved, and if a simulation breaks, provide fixes immediately before proceeding.
+   - Verify that all existing tests still pass with the proposed changes.
+   - Ensure that the changes do not introduce any regressions or side effects.
+   - Validate that the changes meet all the requirements and constraints.
+</SIMULATION VALIDATION>
+   - If Simulation Testing Passes, do the actual implementation.
+</MAKE CHANGES>
+
+[Step: 4] Perform <TESTING>.
+
+[Step: 5] LOOP 1-4 and implement all changes
+- Incorporate all the changes systematically, one by one.
+- Verify the changes and test them one by one.
+
+[Step: 6] Optimize the implemented codes
+- Optimize the implemented code, after all changes are tested and verified.
+</SYSTEMATIC CODE PROTOCOL>
+
+<REFERENCE>
+- Reference relevant documentation and best practices
+<!--
+<WEB USE>
+  Web search functionality will be customized later
+</WEB USE>
+-->
+</REFERENCE>
+
+## Architectural Patterns
+
+### CLI Implementation
+- CLI modules should import and use functions from core modules, not duplicate functionality
+- CLI commands act as thin wrappers around actual implementation
+- Benefits:
+  - Avoids code duplication
+  - Maintains consistency (changes to core reflect in CLI)
+  - Simplifies maintenance (single source of truth)
+
+### Configuration Architecture
+
+#### Core Pattern
+Follow a layered approach to configuration management:
+1. **Environment Variables** → **Configuration Objects** → **Provider-Specific Clients** → **Application Components**
+
+#### Implementation Guidelines
+- **Environment Variables Management**:
+  - Store all configuration in environment variables
+  - Provide comprehensive `.env.example` with clear documentation
+  - Use `dotenv` for local development, actual env vars in production
+  - Include intelligent defaults for non-critical settings
+
+- **Provider Abstraction**:
+  - Abstract service providers (OpenAI, Anthropic, etc.) behind a common interface
+  - Build configuration dictionaries dynamically based on selected provider
+  - Keep provider-specific logic isolated in dedicated modules
+  - Support seamless provider switching without code changes
+
+- **Client Initialization**:
+  - Initialize clients based on configuration at application startup
+  - Handle connection failures gracefully with informative error messages
+  - Implement appropriate retry mechanisms for transient failures
+  - Log configuration choices (without sensitive values)
+
+- **Dependency Injection**:
+  - Pass initialized clients to components, don't initialize within components
+  - Use dataclasses or Pydantic models to structure dependencies
+  - Create factory functions for client initialization
+  - Ensure testability by supporting mock clients
+
+- **Profile Management** (for multiple environments):
+  - Support multiple configuration profiles (dev, test, prod)
+  - Implement secure storage of profile settings
+  - Provide simple mechanism for profile switching
+  - Validate complete configuration at startup
+
+#### Integration with Project Structure
+- Place provider-specific code in `{{project_name}}/services/`
+- Define configuration models in `{{project_name}}/models/config.py`
+- Implement client factories in `{{project_name}}/utils/clients.py`
+- Handle environment loading in `{{project_name}}/config.py`
+
+## Detailed Code Quality Standards
+
+The following detailed code quality standards *must be adhered to* for all code developed within this project:
+
+- **Type Hints**: Checked with mypy, no `Any` types without justification. Use complete type hints for all functions and classes.
+- **Error Handling**:
+  - Use specific exception types (ValueError, TypeError, etc.).
+  - Properly manage resources with try/except/finally.
+  - Implement graceful failure modes. Avoid catching `Exception` generically without re-raising. Log all errors with context.
+- **Input Validation**: Use Pydantic for all data validation. Validate user inputs at the system boundary. Provide clear error messages.
+- **Logging**:
+  - Use Python's `logging` module with level INFO for standard logging.
+  - Format: `%(asctime)s - %(levelname)s - %(message)s`. Include context.
+  - Use Logfire for LLM calls and agent interactions.
+  - Configure console output for development.
+- **Testing (Baseline)**:
+  - Create Pytest unit tests for all new features.
+  - Test normal use cases, edge cases, and failures.
+  - Tests should mirror the main app structure in a `/tests` folder.
+
+# TESTING (Always write TEST after IMPLEMENTATION)
+<TESTING>
+<DEPENDENCY BASED TESTING>
+Create unit tests for any new functionality. Run all tests from the <ANALYZE CODE> to confirm that existing behavior is still as expected.
+</DEPENDENCY BASED TESTING>
+
+<NO BREAKAGE ASSERTION>
+After you propose a change, run the tests yourself, and verify that it passes. Do not rely on me to do this, and be certain that my code will not be broken.
+</NO BREAKAGE ASSERTION>
+
+1. Write test logic in separate files than the code implementation for the functionality to keep the code clean and maintainable
+
+<TEST PLAN>
+- Think of sufficiently exhaustive test plans for the functionalities added/updated against the requirements and desired outcomes.
+- Define comprehensive test scenarios covering edge cases
+- Specify appropriate validation methods for the project's stack
+- Suggest monitoring approaches to verify the solution's effectiveness
+- Consider potential regressions and how to prevent them
+</TEST PLAN>
+
+2. Write test code for ANY added critical functionality ALWAYS. For initial test generation use <DEPENDENCY BASED TESTING> and <NO BREAKAGE ASSERTION>. Then use <TEST PLAN> to write code for extensive testing.
+3. Document testing as specified in [memory.mdc](mdc:.cursor/rules/memory.mdc)
+</TESTING>
+
+- When implementing something new, be relentless and implement everything to the letter. Stop only when you're done till successfully testing, not before.
+- Ensure complete implementation of all requirements - partial implementations lead to technical debt.
+- Follow through on all aspects of the implementation, including error handling, edge cases, and documentation.
+- Do not consider a task complete until all tests pass and the implementation has been verified against the requirements.
+- **Documentation**:
+  - Use Google-style docstrings for all public APIs:
+    ```python
+    def function_name(param1: type, param2: type) -> return_type:
+        """Short description of function purpose.
+
+        Extended description of functionality.
+
+        Args:
+            param1: Description of param1
+            param2: Description of param2
+
+        Returns:
+            Description of return value
+
+        Raises:
+            ExceptionType: When and why this exception is raised
+        """
+    ```
+  - Include `Args`, `Returns`, and `Raises` sections.
+  - Document complex logic with inline comments.
+  - Maintain a comprehensive `README.md` with setup and usage instructions. Keep documentation in sync with code.
+- **Code Organization**: Keep files under 500 lines. Use consistent naming conventions. Organize imports (PEP 8). Group related functionality. Avoid circular dependencies.

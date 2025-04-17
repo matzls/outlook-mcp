@@ -1,0 +1,47 @@
+---
+description: CI/CD integration guidelines
+globs: [".github/workflows/*.yml", ".gitlab-ci.yml", "azure-pipelines.yml"]
+alwaysApply: false
+---
+# CI/CD Integration
+
+## GitHub Actions Workflow
+- Automated testing on push and pull requests
+- Code quality checks with Ruff
+- Type checking with mypy
+- Security scanning
+- Coverage reporting
+
+## Pre-commit Hooks
+- Code formatting with Ruff
+- Linting with Ruff
+- Type checking with mypy
+- Security scanning with Bandit
+
+## Workflow Structure
+- Separate jobs for different stages (build, test, lint, deploy)
+- Use matrix builds for testing across multiple Python versions
+- Cache dependencies to speed up builds
+- Use environment variables for configuration
+- Store secrets in GitHub Secrets
+
+## Deployment Automation
+- Automated deployment to staging environments
+- Manual approval for production deployments
+- Rollback capability for failed deployments
+- Environment-specific configuration
+- Post-deployment verification
+
+## Quality Gates
+- All tests must pass
+- Code coverage must meet threshold
+- No linting errors
+- No type checking errors
+- No security vulnerabilities
+
+## Monitoring and Alerting
+- Monitor deployment success/failure
+- Alert on failed deployments
+- Monitor application health
+- Alert on application errors
+- Monitor performance metrics

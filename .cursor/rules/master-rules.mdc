@@ -1,0 +1,68 @@
+---
+description: Overview of all rules and their relationships
+globs:
+alwaysApply: true
+---
+# Master Rules Overview
+
+This file provides an overview of all rules in the .cursor/rules directory and their relationships.
+
+## Core Rules (Always Applied)
+- **[rules.mdc](mdc:.cursor/rules/rules.mdc)**: Core instructions to be always followed, including communication protocols
+- **[plan.mdc](mdc:.cursor/rules/plan.mdc)**: Planning workflow and development process phases
+- **[memory.mdc](mdc:.cursor/rules/memory.mdc)**: Project context management and documentation guidelines
+- **[lessons-learned.mdc](mdc:.cursor/rules/lessons-learned.mdc)**: Project intelligence, patterns, and preferences
+
+## Context-Specific Rules (Applied Based on Context)
+- **[implement.mdc](mdc:.cursor/rules/implement.mdc)**: Implementation guidelines and code quality standards
+- **[debug.mdc](mdc:.cursor/rules/debug.mdc)**: Debugging workflow and error resolution
+- **[testing.mdc](mdc:.cursor/rules/testing.mdc)**: Testing and linting standards
+- **[architecture-understanding.mdc](mdc:.cursor/rules/architecture-understanding.mdc)**: Architecture understanding and patterns
+- **[security.mdc](mdc:.cursor/rules/security.mdc)**: Security practices and guidelines
+- **[ci-cd.mdc](mdc:.cursor/rules/ci-cd.mdc)**: CI/CD integration guidelines
+- **[directory-structure.mdc](mdc:.cursor/rules/directory-structure.mdc)**: Project directory structure guidelines
+- **[error-documentation.mdc](mdc:.cursor/rules/error-documentation.mdc)**: Document major failure points and their solutions
+
+## Rule Relationships
+
+```mermaid
+flowchart TD
+    Master[master-rules.mdc] --> Rules[rules.mdc]
+    Master --> Plan[plan.mdc]
+    Master --> Memory[memory.mdc]
+    Master --> Lessons[lessons-learned.mdc]
+
+    Rules --> Implement[implement.mdc]
+    Plan --> Implement
+
+    Implement --> Testing[testing.mdc]
+    Implement --> Architecture[architecture-understanding.mdc]
+
+    Memory --> ErrorDoc[error-documentation.mdc]
+    Memory --> DirStructure[directory-structure.mdc]
+
+    Implement --> Debug[debug.mdc]
+    Debug --> ErrorDoc
+
+    Architecture --> Security[security.mdc]
+    Testing --> CICD[ci-cd.mdc]
+```
+
+## When to Use Each Rule
+
+- **Planning Phase**: plan.mdc, architecture-understanding.mdc, memory.mdc
+- **Implementation Phase**: implement.mdc, directory-structure.mdc, testing.mdc, security.mdc
+- **Debugging Phase**: debug.mdc, error-documentation.mdc
+- **CI/CD Setup**: ci-cd.mdc, testing.mdc
+- **Documentation**: memory.mdc, lessons-learned.mdc
+
+## Rule Application Guidelines
+
+1. **Always Applied Rules**: These rules are included in every model context
+2. **Auto Attached Rules**: These are automatically included when files matching specific glob patterns are referenced
+3. **Agent Requested Rules**: These are available to the AI, which decides whether to include them based on relevance
+4. **Manual Rules**: These are only included when explicitly mentioned using @ruleName
+
+## Testing Standards Activation
+
+The testing standards in testing.mdc are only fully enforced when explicitly activated in the "Project Quality Gates" section of DEVELOPMENT.md. Always check this section before applying the full testing standards.

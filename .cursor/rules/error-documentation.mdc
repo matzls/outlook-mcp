@@ -1,0 +1,47 @@
+---
+description: Document major failure points and their solutions
+globs:
+alwaysApply: false
+---
+# Error Documentation
+
+This file documents major failure points in this project and how they were solved. It serves as a knowledge base for common issues and their resolutions.
+
+During your interaction, if you find a fix to a mistake in this project or a correction you received reusable, you should take note in this file so you will not make the same mistake again.
+
+## Error Categories
+
+### Configuration Errors
+- Description: Issues related to environment variables, configuration files, or settings
+- Common causes: Missing environment variables, incorrect configuration values, configuration conflicts
+- Resolution patterns: Validate configuration at startup, provide clear error messages, use default values where appropriate
+
+### API Integration Errors
+- Description: Issues when interacting with external APIs
+- Common causes: API changes, rate limiting, authentication failures, network issues
+- Resolution patterns: Implement retry mechanisms, handle specific error codes, validate responses
+
+### Data Validation Errors
+- Description: Issues with invalid or unexpected data
+- Common causes: Missing required fields, incorrect data types, data format issues
+- Resolution patterns: Use Pydantic for validation, provide clear error messages, validate at system boundaries
+
+### Performance Issues
+- Description: Problems with application performance
+- Common causes: Inefficient algorithms, resource leaks, excessive database queries
+- Resolution patterns: Profiling, caching, query optimization, asynchronous processing
+
+## Specific Errors
+
+<!--
+Template for documenting specific errors:
+
+### [Error Title]
+- **Error Message**: The exact error message
+- **Context**: When and where this error occurs
+- **Root Cause**: The underlying cause of the error
+- **Solution**: How to fix the error
+- **Prevention**: How to prevent this error in the future
+-->
+
+<!-- Add specific errors here as they are encountered and resolved -->

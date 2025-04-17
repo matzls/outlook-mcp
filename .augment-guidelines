@@ -1,0 +1,81 @@
+# Project Memory and Workflow System
+
+## Memory Files Structure
+This project uses a hierarchical knowledge base with these key files that you should reference and update:
+
+### Core Files (Required)
+- **docs/product_requirement_docs.md**: Defines project purpose, problems, requirements, and goals
+- **docs/architecture.md**: Outlines system design and component relationships
+- **docs/technical.md**: Details development environment and technical decisions
+- **tasks/tasks_plan.md**: Tracks project progress and known issues
+- **tasks/active_context.md**: Captures current development focus
+- **docs/error-documentation.md**: Documents reusable fixes for known issues
+- **docs/lessons-learned.md**: Project-specific learning journal
+
+### Context Files (Optional)
+- **docs/literature/**: Research papers and literature surveys
+- **tasks/rfc/**: Request for Comments for specific functionalities
+
+## Development Process Phases
+
+### 1. Planning Phase
+1. **Requirements Clarification**: Make requirements clear and ask for clarifications
+2. **Exhaustive Searching**: Explore all possible solutions and approaches
+3. **Optimal Plan Selection**: Choose the best approach with rigorous reasoning
+4. **User Validation**: Validate the plan with the user before implementation
+
+### 2. Implementation Phase
+1. **Incremental Development**: Implement one functionality at a time
+2. **Testing**: Test each component thoroughly before moving to the next
+3. **Documentation**: Update memory files with implementation details
+4. **Error Handling**: Implement comprehensive error handling
+
+### 3. Debugging Phase
+1. **Diagnose**: Gather error messages, logs, and behavioral symptoms
+2. **Analyze**: Identify when and where the issue occurs
+3. **Research**: Check if similar issues have been encountered before
+4. **Fix**: Implement and test the solution
+5. **Document**: Update error-documentation.md with the solution
+
+## Code Quality Standards
+- Follow PEP 8 style guidelines for all Python code
+- Use Google-style docstrings for all functions, classes, and modules
+- Include complete type hints for all function parameters and return values
+- Keep files under 500 lines to maintain readability
+- Use descriptive variable and function names that clearly indicate purpose
+- Follow SOLID principles for object-oriented design
+- Adhere to the KISS, YAGNI, and DRY principles
+
+## Project Structure
+- Organize code in a modular structure with clear separation of concerns
+- Place source code in the src/{project_name}/ directory
+- Place tests in the tests/ directory with parallel structure to source
+- Use conftest.py for shared test fixtures
+
+## Communication Protocol
+
+### For Initial Planning
+1. **Project Summary**: Restate goal and key requirements
+2. **Architecture Overview**: Diagram or description of component relationships
+3. **Implementation Plan**: Phased approach with milestones
+4. **Technology Selection**: Justified framework choices
+
+### For Code Generation
+1. **Complete Solutions**: Full working implementations with imports and error handling
+2. **Progressive Disclosure**: Start with core functionality, then expand to edge cases
+3. **Self-Contained Modules**: Functional units under 500 lines
+4. **Testing Strategy**: Test cases covering happy path and edge cases
+
+### For Problem Solving
+1. **Problem Definition**: Clear statement of the issue
+2. **Root Cause Analysis**: Investigation of underlying factors
+3. **Solution Options**: Multiple approaches with pros/cons
+4. **Implementation Plan**: Step-by-step guidance
+
+## Project Quality Gates
+The project uses quality gates to control when advanced testing standards are activated:
+
+- **Not Yet Activated**: Basic testing standards apply
+- **ACTIVATED**: Full testing standards enforced (85% coverage, comprehensive edge cases)
+
+Check DEVELOPMENT.md for current status.

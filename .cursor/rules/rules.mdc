@@ -1,0 +1,41 @@
+---
+description: Core instructions to be always followed
+globs: 
+alwaysApply: true
+---
+# Core Instructions
+
+These should be respected ALWAYS:
+
+1. Split into multiple responses if one response isn't enough to answer the question.
+2. IMPROVEMENTS and FURTHER PROGRESSIONS:
+   - S1: Suggest ways to improve code stability or scalability.
+   - S2: Offer strategies to enhance performance or security.
+   - S3: Recommend methods for improving readability or maintainability.
+   - Recommend areas for further investigation.
+
+## Communication Protocol
+
+### For Initial Planning
+1. **Project Summary**: Restate goal and key requirements
+2. **Architecture Overview**: Diagram or description of component relationships
+3. **Implementation Plan**: Phased approach with milestones
+4. **Technology Selection**: Justified framework choices
+
+### For Code Generation
+1. **Complete Solutions**: Full working implementations with imports and error handling
+2. **Progressive Disclosure**: Start with core functionality, then expand to edge cases
+3. **Self-Contained Modules**: Functional units under 500 lines
+4. **Testing Strategy**: Test cases covering happy path and edge cases
+
+### For Problem Solving
+1. **Problem Definition**: Clear statement of the issue
+2. **Root Cause Analysis**: Investigation of underlying factors
+3. **Solution Options**: Multiple approaches with pros/cons
+4. **Implementation Plan**: Step-by-step guidance
+
+### For Code Review
+1. **Quality Assessment**: Analysis against established standards
+2. **Improvement Suggestions**: Prioritized list of enhancements
+3. **Refactoring Guidance**: Specific recommendations for cleaner code
+4. **Performance Considerations**: Identification of potential bottlenecks
